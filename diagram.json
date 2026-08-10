@@ -1,0 +1,24 @@
+{
+  "version": 1,
+  "author": "Jose Carlos Vieira Junior",
+  "editor": "wokwi",
+  "parts": [
+    { "type": "board-esp32-devkit-c-v4", "id": "esp", "top": 19.2, "left": -33.56, "attrs": {} },
+    { "type": "wokwi-led", "id": "led1", "top": -60, "left": 100, "attrs": { "color": "red" } },
+    {
+      "type": "wokwi-resistor",
+      "id": "r1",
+      "top": -24.85,
+      "left": 9.6,
+      "attrs": { "value": "220" }
+    }
+  ],
+  "connections": [
+    [ "esp:TX", "$serialMonitor:RX", "", [] ],
+    [ "esp:RX", "$serialMonitor:TX", "", [] ],
+    [ "esp:GND.1", "r1:1", "black", [ "h-47.85", "v-192" ] ],
+    [ "r1:2", "led1:C", "black", [ "v0" ] ],
+    [ "esp:2", "led1:A", "red", [ "h96", "v-200.4" ] ]
+  ],
+  "dependencies": {}
+}
