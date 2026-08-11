@@ -1,0 +1,35 @@
+name: Compilar firmware ESP32
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Baixar projeto
+        uses: actions/checkout@v4
+
+      - name: Instalar Arduino CLI
+        uses: arduino/setup-arduino-cli@v2
+
+      - name: Instalar suporte ao ESP32
+        run: |
+          arduino-cli config init
+          arduino-cli core update-index \
+            --additional-urls https://espressif.github.io/arduino-esp32/package_esp32_index.json
+          arduino-cli core install esp32:esp32
+
+      - name: Compilar firmware
+        run: |
+          mkdir -p build
+          arduino-cli compile \
+            --fqbn esp32:esp32:esp32 \
+            --export-binaries \
+            --output-dir build .
+
+      - name: Disponibilizar arquivo BIN
+        uses: actions/upload-artifact@v4
+        with:
+          name: firmware-esp32
+          path: build/*.bin
